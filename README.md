@@ -2,5 +2,5 @@
 
 ## Integrantes
 
-### . Franco Daniel Capra
-### . Tomás Villegas
+### Franco Daniel Capra
+### Tomás Villegas
