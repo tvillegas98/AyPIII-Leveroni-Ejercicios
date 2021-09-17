@@ -1,8 +1,8 @@
 # Algoritmos y Programación III, Cátedra Leveroni
 
-## Integrantes
+## *Integrantes*
 
 ### Franco Daniel Capra
 ### Tomás Villegas
 
-## Repositorio utilizado para los ejercicios propuestos por la cátedra.
+## *Repositorio utilizado para los ejercicios propuestos por la cátedra.*
