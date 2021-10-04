@@ -73,7 +73,7 @@ responderSegunCantidadDeInteraccionesCon: unPersonaje
 	^ frases at: (cantidadDeInteraccionesDelPersonaje min: frases size)! !
 
 
-!CarolinaLaCurandera class methodsFor: 'as yet unclassified' stamp: 'TV 10/3/2021 17:56:11'!
+!CarolinaLaCurandera class methodsFor: 'as yet unclassified' stamp: 'TV 10/4/2021 11:16:06'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -407,7 +407,7 @@ reconocerComoPrometedorA: unPersonaje
 	self hablarConElPuebloParaReconocerComoPrometedorA: unPersonaje .! !
 
 
-!PuebloDeRiverwood class methodsFor: 'as yet unclassified' stamp: 'TV 10/3/2021 17:56:11'!
+!PuebloDeRiverwood class methodsFor: 'as yet unclassified' stamp: 'TV 10/4/2021 11:16:06'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -463,7 +463,7 @@ responderSegunCantidadDeInteraccionesCon: unPersonaje
 	^ frasesParaEstePersonaje at: (cantidadDeInteraccionesDelPersonaje min: frasesParaEstePersonaje size)! !
 
 
-!TreborElGuardiaDeSkyrim class methodsFor: 'as yet unclassified' stamp: 'TV 10/3/2021 17:56:11'!
+!TreborElGuardiaDeSkyrim class methodsFor: 'as yet unclassified' stamp: 'TV 10/4/2021 11:16:06'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
