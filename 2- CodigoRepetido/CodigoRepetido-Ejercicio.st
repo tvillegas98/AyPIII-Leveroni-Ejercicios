@@ -21,137 +21,135 @@ TestCase subclass: #CustomerBookTest
 	poolDictionaries: ''
 	category: 'CodigoRepetido-Ejercicio'!
 
-!CustomerBookTest methodsFor: 'tests' stamp: 'TV 10/11/2021 17:55:21'!
+!CustomerBookTest methodsFor: 'tests' stamp: 'TV 10/13/2021 23:10:15'!
 test01AddingCustomerShouldNotTakeMoreThan50Milliseconds
 
 	| customerBook runningTime |
 	
 	customerBook := CustomerBook new.
-	runningTime:= self tiempoParaEjecutar: [customerBook addCustomerNamed: 'John Lennon'.].
+	runningTime:= self getRunningTimeOf: [customerBook addCustomerNamed: 'John Lennon'.].
 	
 	self assert: runningTime < (50 * millisecond)
 	
 ! !
 
-!CustomerBookTest methodsFor: 'tests' stamp: 'TV 10/11/2021 18:02:51'!
+!CustomerBookTest methodsFor: 'tests' stamp: 'TV 10/13/2021 23:37:47'!
 test02RemovingCustomerShouldNotTakeMoreThan100Milliseconds
 	| customerBook runningTime |
 	
-	customerBook := CustomerBook conCustomerName: 'Paul McCartney'.
-	runningTime := self tiempoParaEjecutar: [customerBook removeCustomerNamed: 'Paul McCartney' ].
+	customerBook := CustomerBook withCustomerNamed: 'Paul McCartney'.
+	runningTime := self getRunningTimeOf: [customerBook removeCustomerNamed: 'Paul McCartney' ].
 	self assert: runningTime < (100 * millisecond)
 	
 ! !
 
-!CustomerBookTest methodsFor: 'tests' stamp: 'TV 10/11/2021 19:54:16'!
+!CustomerBookTest methodsFor: 'tests' stamp: 'TV 10/13/2021 23:56:28'!
 test03CanNotAddACustomerWithEmptyName 
-	| customerBook situacionDelObjeto bloqueDeCodigo |
+	| customerBook closure action |
 	"Preguntar"			
 	customerBook := CustomerBook new.
-	bloqueDeCodigo:= [customerBook addCustomerNamed: ''].
-	situacionDelObjeto:= [ :anError | 
+	closure := [customerBook addCustomerNamed: ''].
+	action := [ :anError | 
 			self assert: anError messageText = CustomerBook customerCanNotBeEmptyErrorMessage.
 			self assert: customerBook isEmpty ].
 			
-	self bloqueDeCodigoQueDebeFallar:bloqueDeCodigo ConElError: Error debeCumplirQue: situacionDelObjeto.! !
+	self closureThatMustFail: closure withError: Error atErrorDo: action.! !
 
-!CustomerBookTest methodsFor: 'tests' stamp: 'TV 10/11/2021 19:54:10'!
+!CustomerBookTest methodsFor: 'tests' stamp: 'TV 10/13/2021 23:55:57'!
 test04CanNotRemoveAnInvalidCustomer
-	| customerBook bloqueDeCodigo situacionDelObjeto |
+	| customerBook closure action |
 	"Preguntar"			
-	customerBook := CustomerBook conCustomerName: 'John Lennon'.
-	bloqueDeCodigo := [customerBook removeCustomerNamed: 'Paul McCartney'.].
-	situacionDelObjeto:= [:anError | 
+	customerBook := CustomerBook withCustomerNamed: 'John Lennon'.
+	closure := [customerBook removeCustomerNamed: 'Paul McCartney'.].
+	action := [:anError | 
 			self assert: customerBook numberOfCustomers = 1.
-			self assert: (customerBook includesCustomerNamed: 'John Lennon')
-		].
+			self assert: (customerBook includesCustomerNamed: 'John Lennon')].
 	
-	self bloqueDeCodigoQueDebeFallar: bloqueDeCodigo ConElError: NotFound debeCumplirQue: situacionDelObjeto.! !
+	self closureThatMustFail: closure withError: NotFound atErrorDo: action.! !
 
-!CustomerBookTest methodsFor: 'tests' stamp: 'TV 10/11/2021 18:58:30'!
+!CustomerBookTest methodsFor: 'tests' stamp: 'TV 10/13/2021 23:37:47'!
 test05SuspendingACustomerShouldNotRemoveItFromCustomerBook
 
 	| customerBook |
 	
-	customerBook := CustomerBook conCustomerName: 'Paul McCartney'.
+	customerBook := CustomerBook withCustomerNamed: 'Paul McCartney'.
 	
 	customerBook suspendCustomerNamed: 'Paul McCartney'.
 	
-	self checkValuesOf: customerBook  ActiveCustomers: 0 SuspendedCustomers: 1  Customers: 1.
+	self checkValuesOf: customerBook  expectedActiveCustomers: 0 expectedSuspendedCustomers: 1  expectedCustomers: 1.
 	self assert: (customerBook includesCustomerNamed: 'Paul McCartney').
 	
 
 	
 ! !
 
-!CustomerBookTest methodsFor: 'tests' stamp: 'TV 10/11/2021 18:57:55'!
+!CustomerBookTest methodsFor: 'tests' stamp: 'TV 10/13/2021 23:37:46'!
 test06RemovingASuspendedCustomerShouldRemoveItFromCustomerBook
 
 	| customerBook |
 	
-	customerBook := CustomerBook conCustomerName: 'Paul McCartney'.
+	customerBook := CustomerBook withCustomerNamed: 'Paul McCartney'.
 	
 	customerBook suspendCustomerNamed: 'Paul McCartney'.
 	customerBook removeCustomerNamed: 'Paul McCartney'.
 	
-	self checkValuesOf: customerBook  ActiveCustomers: 0 SuspendedCustomers: 0  Customers: 0.
+	self checkValuesOf: customerBook  expectedActiveCustomers: 0 expectedSuspendedCustomers: 0  expectedCustomers: 0.
 	self deny: (customerBook includesCustomerNamed: 'Paul McCartney').
 
 	
 ! !
 
-!CustomerBookTest methodsFor: 'tests' stamp: 'TV 10/11/2021 19:05:06'!
+!CustomerBookTest methodsFor: 'tests' stamp: 'TV 10/13/2021 23:49:27'!
 test07CanNotSuspendAnInvalidCustomer
 	
-	| customerBook |
+	| customerBook action closure |
 			
-	customerBook := CustomerBook conCustomerName: 'John Lennon'.
+	customerBook := CustomerBook withCustomerNamed: 'John Lennon'.
+	closure := [customerBook suspendCustomerNamed: 'Ringo Starr'].
+	action := [ :anError | 
+			self assert: customerBook numberOfCustomers = 1.
+			self assert: (customerBook includesCustomerNamed: 'John Lennon') ].
+	
+	self closureThatMustFail: closure withError: CantSuspend atErrorDo: action.! !
 
-	self fallaElSuspenderA: 'Ringo Starr' En: customerBook.! !
-
-!CustomerBookTest methodsFor: 'tests' stamp: 'TV 10/11/2021 19:04:50'!
+!CustomerBookTest methodsFor: 'tests' stamp: 'TV 10/13/2021 23:59:25'!
 test08CanNotSuspendAnAlreadySuspendedCustomer
 	
-	| customerBook |
-			
-	customerBook := CustomerBook conCustomerName: 'John Lennon'.
+	| customerBook closure action |		
+	customerBook := CustomerBook withCustomerNamed: 'John Lennon'.
 	customerBook suspendCustomerNamed: 'John Lennon'.
 	
-	self fallaElSuspenderA: 'John Lennon' En: customerBook.
+	closure := [customerBook suspendCustomerNamed: 'John Lennon'].
+	action := [ :anError | 
+			self assert: customerBook numberOfCustomers = 1.
+			self assert: (customerBook includesCustomerNamed: 'John Lennon') ].
+		
+	self closureThatMustFail: closure withError: CantSuspend  atErrorDo: action.
 ! !
 
 
-!CustomerBookTest methodsFor: 'testHelpers' stamp: 'TV 10/11/2021 18:42:07'!
-bloqueDeCodigoQueDebeFallar: bloqueDeCodigo ConElError: error debeCumplirQue: condicion
-	[ bloqueDeCodigo value.
-	self fail	]
-		on: error
-		do:[condicion
-			].
-! !
-
-!CustomerBookTest methodsFor: 'testHelpers' stamp: 'TV 10/11/2021 19:54:29'!
-checkValuesOf: customerBook ActiveCustomers: activeCustomers SuspendedCustomers: suspendedCustomers Customers: customers
+!CustomerBookTest methodsFor: 'testHelpers' stamp: 'TV 10/13/2021 23:28:05'!
+checkValuesOf: customerBook expectedActiveCustomers: activeCustomers expectedSuspendedCustomers: suspendedCustomers expectedCustomers: customers
 	"Preguntar"	
 	self assert: activeCustomers equals: customerBook numberOfActiveCustomers.
 	self assert: suspendedCustomers equals: customerBook numberOfSuspendedCustomers.
 	self assert: customers equals: customerBook numberOfCustomers.! !
 
-!CustomerBookTest methodsFor: 'testHelpers' stamp: 'TV 10/11/2021 19:03:31'!
-fallaElSuspenderA: customerName En: customerBook
-	[ customerBook suspendCustomerNamed: customerName.
-	self fail ]
-		on: CantSuspend 
-		do: [ :anError | 
-			self assert: customerBook numberOfCustomers = 1.
-			self assert: (customerBook includesCustomerNamed: 'John Lennon') ].! !
+!CustomerBookTest methodsFor: 'testHelpers' stamp: 'TV 10/13/2021 23:31:14'!
+closureThatMustFail: closure withError: error atErrorDo: action
+	[ closure value.
+	self fail	]
+		on: error
+		do:[action
+			].
+! !
 
-!CustomerBookTest methodsFor: 'testHelpers' stamp: 'TV 10/11/2021 17:53:06'!
-tiempoParaEjecutar: bloqueDeCodigo
+!CustomerBookTest methodsFor: 'testHelpers' stamp: 'TV 10/13/2021 23:10:33'!
+getRunningTimeOf: thisClosure
 	| millisecondsBeforeRunning millisecondsAfterRunning |
 	
 	millisecondsBeforeRunning := Time millisecondClockValue * millisecond.
-	bloqueDeCodigo value.
+	thisClosure value.
 	millisecondsAfterRunning := Time millisecondClockValue * millisecond.
 	^(millisecondsAfterRunning - millisecondsBeforeRunning).! !
 
@@ -178,28 +176,10 @@ addCustomerNamed: aName
 	
 	active add: aName ! !
 
-!CustomerBook methodsFor: 'customer management' stamp: 'TV 10/11/2021 19:47:22'!
-remove: name from: list
-	1 to: list size do: 
-	[ :index |
-		name = (list at: index)
-			ifTrue: [
-				list removeAt: index.
-				^name
-			]
-	].! !
-
-!CustomerBook methodsFor: 'customer management' stamp: 'TV 10/11/2021 19:49:58'!
+!CustomerBook methodsFor: 'customer management' stamp: 'TV 10/13/2021 22:58:23'!
 removeCustomerNamed: aName 
-	|iterable|
-	
-	iterable := active select: [:currentName| aName = currentName.].
-	iterable do: [:name| ^self remove: name from: active.].
-	
-	iterable := suspended select: [:currentName| aName = currentName].
-	iterable do: [:name| ^self remove: name from: suspended.].
-	
-	^NotFound signal.
+
+	active remove: aName ifAbsent:[suspended remove: aName ifAbsent: [^NotFound signal.].].
 ! !
 
 !CustomerBook methodsFor: 'customer management' stamp: 'TV 10/11/2021 13:05:25'!
@@ -267,9 +247,9 @@ customerCanNotBeEmptyErrorMessage
 	^'Customer Name Cannot Be Empty'! !
 
 
-!CustomerBook class methodsFor: 'initializers' stamp: 'TV 10/11/2021 18:04:32'!
-conCustomerName: customerName
-	|customerBook|
+!CustomerBook class methodsFor: 'initializers' stamp: 'TV 10/13/2021 23:37:46'!
+withCustomerNamed: aName
+	|customerBook |
 	customerBook := self new.
-	customerBook addCustomerNamed: customerName.
+	customerBook addCustomerNamed: aName.
 	^customerBook.! !
