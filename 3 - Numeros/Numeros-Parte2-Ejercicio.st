@@ -364,37 +364,27 @@ Numero subclass: #Entero
 	poolDictionaries: ''
 	category: 'Numeros-Parte2-Ejercicio'!
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'TV 10/24/2021 00:31:09'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'CapraFranco 10/24/2021 19:44:34'!
 * aMultiplier 
 	
-	(aMultiplier isKindOf: Entero) ifTrue: [^self class with: aMultiplier integerValue * self integerValue].
-	(aMultiplier isKindOf: Fraccion) ifTrue: [^Fraccion with: (aMultiplier numerator * self) over: aMultiplier denominator ].
+	^aMultiplier beMultipliedToAnEntero: self.
 	
-	self error: 'Numero no reconocido'. 
 	! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'TV 10/24/2021 01:46:25'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'CapraFranco 10/24/2021 19:37:46'!
 + anAdder
-	"
-	(anAdder isKindOf: Entero) ifTrue: [^self class with: self integerValue + anAdder integerValue].
-	(anAdder isKindOf: Fraccion) ifTrue: [^Fraccion 
-		with: self  * anAdder denominator + anAdder numerator 
-		over: anAdder denominator]."
+	
 	^anAdder beAddedToAnEntero: self.! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'TV 10/24/2021 01:06:06'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'CapraFranco 10/24/2021 19:53:42'!
 - aSubtrahend 
 	
-	(aSubtrahend isKindOf: Entero) ifTrue: [^self class with: value - aSubtrahend integerValue.].
-	(aSubtrahend isKindOf: Fraccion) ifTrue: [^self * aSubtrahend denominator - aSubtrahend numerator / aSubtrahend denominator].! !
+	^aSubtrahend beSubtractedToAnEntero: self.! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'TV 10/24/2021 00:46:12'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'CapraFranco 10/24/2021 20:06:09'!
 / aDivisor 
 	
-	(aDivisor isKindOf: Entero) ifTrue: [^Fraccion with: self over: aDivisor].
-	(aDivisor isKindOf: Fraccion) ifTrue: [^Fraccion with: (self * aDivisor denominator) over: aDivisor numerator].
-	
-	self error: 'No conozco ese número'! !
+	^aDivisor beDividedToAnEntero: self.! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'TV 10/21/2021 19:12:35'!
 fibonacci
@@ -467,6 +457,36 @@ isZero
 beAddedToAnEntero: anAugend
 	^Entero with: anAugend integerValue + self integerValue.! !
 
+!Entero methodsFor: 'arithmetic operations - private' stamp: 'CapraFranco 10/24/2021 19:36:09'!
+beAddedToAnFraccion: anAugend
+	
+		^Fraccion with: ((anAugend numerator) + (self value * (anAugend denominator))) over: (anAugend denominator).! !
+
+!Entero methodsFor: 'arithmetic operations - private' stamp: 'CapraFranco 10/24/2021 20:04:27'!
+beDividedToAnEntero: aDividend
+	^Fraccion with: aDividend over: self! !
+
+!Entero methodsFor: 'arithmetic operations - private' stamp: 'CapraFranco 10/24/2021 20:19:35'!
+beDividedToAnFraccion: aDividend
+	^Fraccion with:(aDividend numerator ) over: (self * aDividend denominator).
+	! !
+
+!Entero methodsFor: 'arithmetic operations - private' stamp: 'CapraFranco 10/24/2021 19:42:04'!
+beMultipliedToAnEntero: aMultiplicand
+	^self class with: aMultiplicand integerValue * self integerValue.! !
+
+!Entero methodsFor: 'arithmetic operations - private' stamp: 'CapraFranco 10/24/2021 19:46:56'!
+beMultipliedToAnFraccion: aMultiplicand
+	^(self * aMultiplicand numerator) / aMultiplicand denominator.! !
+
+!Entero methodsFor: 'arithmetic operations - private' stamp: 'CapraFranco 10/24/2021 19:55:49'!
+beSubtractedToAnEntero: aMinuend
+	^self class with: aMinuend integerValue - self integerValue.! !
+
+!Entero methodsFor: 'arithmetic operations - private' stamp: 'CapraFranco 10/24/2021 19:57:45'!
+beSubtractedToAnFraccion: aMinuend
+	^aMinuend numerator - (self * aMinuend denominator) / aMinuend denominator! !
+
 !Entero methodsFor: 'arithmetic operations - private' stamp: 'TV 10/21/2021 19:13:06'!
 greatestCommonDivisorWith: anEntero 
 	
@@ -498,51 +518,24 @@ Numero subclass: #Fraccion
 	poolDictionaries: ''
 	category: 'Numeros-Parte2-Ejercicio'!
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'TV 10/24/2021 00:34:47'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'CapraFranco 10/24/2021 19:48:49'!
 * aMultiplier 
 	
-	(aMultiplier isKindOf: Entero) ifTrue: [^(aMultiplier * self numerator) / self denominator].
-	(aMultiplier isKindOf: Fraccion) ifTrue:[^(numerator * aMultiplier numerator) / (denominator * aMultiplier denominator)].
+	^aMultiplier beMultipliedToAnFraccion: self.
 	! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'TV 10/21/2021 20:21:31'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'CapraFranco 10/24/2021 19:37:14'!
 + anAdder 
-	| newNumerator newDenominator |	
-	(anAdder isKindOf: Entero) ifTrue: 
-	[
-		newNumerator := ((self numerator) + (anAdder value * (self denominator))).
-		^self class with: newNumerator over: self denominator.
-	].
+	^anAdder beAddedToAnFraccion: self.! !
 
-	(anAdder isKindOf: Fraccion) ifTrue:
-	[
-	newNumerator := (numerator * anAdder denominator) + (denominator * anAdder numerator).
-	newDenominator := denominator * anAdder denominator.
-	^newNumerator / newDenominator.
-	].
-
-	self error: 'No conozco ese numero'.! !
-
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'TV 10/24/2021 01:21:10'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'CapraFranco 10/24/2021 19:59:47'!
 - aSubtrahend 
-	
-	(aSubtrahend isKindOf: Entero) ifTrue: [	^self numerator - (aSubtrahend * self denominator) / self denominator].
-	(aSubtrahend isKindOf: Fraccion) ifTrue: [^self class 
-		with: (self numerator * aSubtrahend denominator) - (aSubtrahend numerator * self denominator)
-		over: self denominator * aSubtrahend denominator.
-	].
+	^ aSubtrahend beSubtractedToAnFraccion: self.! !
 
-	self error: 'Ese número no lo conozco'.! !
-
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'TV 10/24/2021 01:17:02'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'CapraFranco 10/24/2021 20:08:24'!
 / aDivisor 
 	
-	(aDivisor isKindOf: Entero) ifTrue: [^self class with:(self numerator ) over: (aDivisor * self denominator)].
-	(aDivisor isKindOf: Fraccion) ifTrue: [^self class 
-			with:(aDivisor denominator * self numerator) 
-			over:(aDivisor numerator * self denominator).].
-	
-	self error: 'No conozco ese número'.! !
+	^aDivisor beDividedToAnFraccion: self.! !
 
 
 !Fraccion methodsFor: 'comparing' stamp: 'TV 10/21/2021 19:14:46'!
@@ -599,6 +592,39 @@ beAddedToAnEntero: anAugend
 	^self class
 		with: (self denominator * anAugend) + self numerator
 		over: self denominator! !
+
+!Fraccion methodsFor: 'arithmetic operations - private' stamp: 'CapraFranco 10/24/2021 19:31:00'!
+beAddedToAnFraccion: anAugend
+	^numerator * (anAugend denominator) + (denominator * anAugend numerator) / (denominator * anAugend denominator).! !
+
+!Fraccion methodsFor: 'arithmetic operations - private' stamp: 'CapraFranco 10/24/2021 20:05:43'!
+beDividedToAnEntero: aDividend
+	^Fraccion with: (aDividend * self denominator) over: self numerator.! !
+
+!Fraccion methodsFor: 'arithmetic operations - private' stamp: 'CapraFranco 10/24/2021 20:08:00'!
+beDividedToAnFraccion: aDividend
+	^self class 
+			with:(self denominator * aDividend numerator) 
+			over:(self numerator * aDividend denominator).! !
+
+!Fraccion methodsFor: 'arithmetic operations - private' stamp: 'CapraFranco 10/24/2021 19:43:44'!
+beMultipliedToAnEntero: aMultiplicand
+	^self class with: (self numerator * aMultiplicand) over: self denominator ! !
+
+!Fraccion methodsFor: 'arithmetic operations - private' stamp: 'CapraFranco 10/24/2021 19:48:06'!
+beMultipliedToAnFraccion: aMultiplicand
+	^(numerator * aMultiplicand numerator) / (denominator * aMultiplicand denominator)! !
+
+!Fraccion methodsFor: 'arithmetic operations - private' stamp: 'CapraFranco 10/24/2021 19:53:05'!
+beSubtractedToAnEntero: aMinuend
+	^aMinuend * self denominator - self numerator / self denominator! !
+
+!Fraccion methodsFor: 'arithmetic operations - private' stamp: 'CapraFranco 10/24/2021 20:01:50'!
+beSubtractedToAnFraccion: aMinuend
+	^self class 
+		with: (aMinuend numerator * self denominator) - (self numerator * aMinuend denominator)
+		over: aMinuend denominator * self denominator.
+		! !
 
 
 !Fraccion methodsFor: 'printing' stamp: 'TV 10/21/2021 19:15:15'!
