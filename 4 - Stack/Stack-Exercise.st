@@ -5,7 +5,7 @@ TestCase subclass: #OOStackTest
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStackTest methodsFor: 'test' stamp: 'HernanWilkinson 5/7/2012 11:30'!
+!OOStackTest methodsFor: 'test' stamp: 'TV 11/1/2021 21:03:02'!
 test01StackShouldBeEmptyWhenCreated
 
 	| stack |
@@ -14,7 +14,7 @@ test01StackShouldBeEmptyWhenCreated
 	
 	self assert: stack isEmpty! !
 
-!OOStackTest methodsFor: 'test' stamp: 'NR 5/13/2020 13:29:55'!
+!OOStackTest methodsFor: 'test' stamp: 'TV 11/1/2021 21:03:22'!
 test02PushAddElementsToTheStack
 
 	| stack |
@@ -24,7 +24,7 @@ test02PushAddElementsToTheStack
 	
 	self deny: stack isEmpty! !
 
-!OOStackTest methodsFor: 'test' stamp: 'NR 5/13/2020 13:30:01'!
+!OOStackTest methodsFor: 'test' stamp: 'TV 11/1/2021 21:05:36'!
 test03PopRemovesElementsFromTheStack
 
 	| stack |
@@ -145,139 +145,43 @@ TestCase subclass: #SentenceFinderByPrefixTest
 	category: 'Stack-Exercise'!
 
 
-!classDefinition: #Elements category: 'Stack-Exercise'!
-Object subclass: #Elements
-	instanceVariableNames: 'collection next'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Stack-Exercise'!
-
-
-!classDefinition: #NotNullElements category: 'Stack-Exercise'!
-Elements subclass: #NotNullElements
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Stack-Exercise'!
-
-!NotNullElements methodsFor: 'as yet unclassified' stamp: 'FrancoCapra 11/1/2021 20:01:17'!
-initializeWithCollection: aCollection andNext: aNext
-	collection := aCollection. 
-	next := aNext.! !
-
-!NotNullElements methodsFor: 'as yet unclassified' stamp: 'FrancoCapra 11/1/2021 19:04:53'!
-isEmpty
-	^false.! !
-
-!NotNullElements methodsFor: 'as yet unclassified' stamp: 'FrancoCapra 11/1/2021 19:05:06'!
-pop
-	^next.! !
-
-!NotNullElements methodsFor: 'as yet unclassified' stamp: 'FrancoCapra 11/1/2021 20:02:13'!
-push: anElement
-	|aCollection|
-	aCollection  := OrderedCollection new.
-	aCollection addAll: collection .
-	aCollection addLast: anElement .
-	
-	^NotNullElements with: aCollection andNext: self.! !
-
-!NotNullElements methodsFor: 'as yet unclassified' stamp: 'FrancoCapra 11/1/2021 19:05:28'!
-size
-	^collection size.! !
-
-!NotNullElements methodsFor: 'as yet unclassified' stamp: 'FrancoCapra 11/1/2021 19:05:19'!
-top
-	^collection last.! !
-
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
-
-!classDefinition: 'NotNullElements class' category: 'Stack-Exercise'!
-NotNullElements class
-	instanceVariableNames: ''!
-
-!NotNullElements class methodsFor: 'as yet unclassified' stamp: 'FrancoCapra 11/1/2021 20:01:26'!
-with: aCollection andNext: aNext
-	
-	^self new initializeWithCollection: aCollection andNext: aNext.! !
-
-
-!classDefinition: #NullElement category: 'Stack-Exercise'!
-Elements subclass: #NullElement
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Stack-Exercise'!
-
-!NullElement methodsFor: 'as yet unclassified' stamp: 'FrancoCapra 11/1/2021 19:00:38'!
-isEmpty
-	^true.! !
-
-!NullElement methodsFor: 'as yet unclassified' stamp: 'FrancoCapra 11/1/2021 19:34:50'!
-pop
-	self error: OOStack stackEmptyErrorDescription.! !
-
-!NullElement methodsFor: 'as yet unclassified' stamp: 'FrancoCapra 11/1/2021 20:00:45'!
-push: anElement
-	|aCollection|
-	aCollection := OrderedCollection new.
-	aCollection add: anElement .
-	
-	^NotNullElements with: aCollection  andNext: self.! !
-
-!NullElement methodsFor: 'as yet unclassified' stamp: 'FrancoCapra 11/1/2021 18:59:55'!
-size
-	^0
-	! !
-
-!NullElement methodsFor: 'as yet unclassified' stamp: 'FrancoCapra 11/1/2021 19:35:05'!
-top
-	self error: OOStack stackEmptyErrorDescription.! !
-
-
-!classDefinition: #NameOfSubclass category: 'Stack-Exercise'!
-Object subclass: #NameOfSubclass
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Stack-Exercise'!
-
-
 !classDefinition: #OOStack category: 'Stack-Exercise'!
 Object subclass: #OOStack
-	instanceVariableNames: 'elements'
+	instanceVariableNames: 'stackElements'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'FrancoCapra 11/1/2021 19:38:35'!
+!OOStack methodsFor: 'initialization' stamp: 'TV 11/1/2021 23:46:16'!
 initialize
-	elements := NullElement new
+	stackElements := NullElement new
 	! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'FrancoCapra 11/1/2021 18:18:11'!
-isEmpty
-	^elements size = 0.! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'FrancoCapra 11/1/2021 19:45:58'!
-pop
-	|last|
-	last := elements top.
-	elements := elements pop.
-	^last.
-! !
-
-!OOStack methodsFor: 'as yet unclassified' stamp: 'FrancoCapra 11/1/2021 19:40:40'!
-push: anElement
-	elements := elements push: anElement.! !
-
-!OOStack methodsFor: 'as yet unclassified' stamp: 'FrancoCapra 11/1/2021 14:34:01'!
+!OOStack methodsFor: 'accesing' stamp: 'TV 11/1/2021 23:46:16'!
 size
-	^elements size.! !
+	^stackElements size.! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'FrancoCapra 11/1/2021 19:38:08'!
+!OOStack methodsFor: 'accesing' stamp: 'TV 11/1/2021 23:46:16'!
 top
-	^elements top.! !
+	^stackElements top.! !
+
+
+!OOStack methodsFor: 'operations' stamp: 'TV 11/1/2021 23:46:16'!
+pop
+	|lastElement|
+	lastElement := stackElements top.
+	stackElements := stackElements pop.
+	^lastElement.! !
+
+!OOStack methodsFor: 'operations' stamp: 'TV 11/1/2021 23:46:16'!
+push: anElement
+	stackElements := stackElements push: anElement.! !
+
+
+!OOStack methodsFor: 'testing' stamp: 'TV 11/1/2021 23:46:16'!
+isEmpty
+	^stackElements size = 0.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -297,3 +201,124 @@ Object subclass: #SentenceFinderByPrefix
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
+
+
+!classDefinition: #StackElements category: 'Stack-Exercise'!
+Object subclass: #StackElements
+	instanceVariableNames: 'collection previousCollection'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!StackElements methodsFor: 'operations' stamp: 'TV 11/1/2021 20:30:35'!
+pop
+	self subclassResponsibility.
+	! !
+
+!StackElements methodsFor: 'operations' stamp: 'TV 11/1/2021 20:30:36'!
+push
+	self subclassResponsibility.
+	! !
+
+
+!StackElements methodsFor: 'testing' stamp: 'TV 11/1/2021 20:30:44'!
+isEmpty
+	self subclassResponsibility.
+	! !
+
+
+!StackElements methodsFor: 'accesing' stamp: 'TV 11/1/2021 20:33:16'!
+size
+	self subclassResponsibility.! !
+
+!StackElements methodsFor: 'accesing' stamp: 'TV 11/1/2021 20:30:33'!
+top
+	self subclassResponsibility.
+	! !
+
+
+!classDefinition: #NotNullElements category: 'Stack-Exercise'!
+StackElements subclass: #NotNullElements
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!NotNullElements methodsFor: 'operations' stamp: 'TV 11/1/2021 23:16:52'!
+pop
+	^previousCollection.! !
+
+!NotNullElements methodsFor: 'operations' stamp: 'TV 11/1/2021 23:23:25'!
+push: anElement
+	|aCollection|
+	aCollection  := OrderedCollection new.
+	aCollection addAll: collection.
+	aCollection addLast: anElement.
+	
+	^NotNullElements with: aCollection and: self.! !
+
+
+!NotNullElements methodsFor: 'testing' stamp: 'TV 11/1/2021 20:26:37'!
+isEmpty
+	^false.! !
+
+
+!NotNullElements methodsFor: 'accesing' stamp: 'TV 11/1/2021 20:26:47'!
+size
+	^collection size.! !
+
+!NotNullElements methodsFor: 'accesing' stamp: 'TV 11/1/2021 20:26:50'!
+top
+	^collection last.! !
+
+
+!NotNullElements methodsFor: 'initialization' stamp: 'TV 11/1/2021 23:30:38'!
+initializeWith: aCollection and: aPreviousCollection
+	collection := aCollection.
+	previousCollection := aPreviousCollection.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'NotNullElements class' category: 'Stack-Exercise'!
+NotNullElements class
+	instanceVariableNames: ''!
+
+!NotNullElements class methodsFor: 'as yet unclassified' stamp: 'TV 11/1/2021 23:30:38'!
+with: aCollection and: aPreviousCollection
+	
+	^self new initializeWith: aCollection and: aPreviousCollection.! !
+
+
+!classDefinition: #NullElement category: 'Stack-Exercise'!
+StackElements subclass: #NullElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!NullElement methodsFor: 'accesing' stamp: 'TV 11/1/2021 20:27:02'!
+size
+	^0
+	! !
+
+!NullElement methodsFor: 'accesing' stamp: 'TV 11/1/2021 20:27:04'!
+top
+	self error: OOStack stackEmptyErrorDescription.! !
+
+
+!NullElement methodsFor: 'operations' stamp: 'TV 11/1/2021 20:26:56'!
+pop
+	self error: OOStack stackEmptyErrorDescription.! !
+
+!NullElement methodsFor: 'operations' stamp: 'TV 11/1/2021 23:23:25'!
+push: anElement
+	|aCollection|
+	aCollection := OrderedCollection new.
+	aCollection add: anElement .
+	
+	^NotNullElements with: aCollection and: self.! !
+
+
+!NullElement methodsFor: 'testing' stamp: 'TV 11/1/2021 20:26:52'!
+isEmpty
+	^true.! !
