@@ -202,6 +202,27 @@ Object subclass: #SentenceFinderByPrefix
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
+!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'TV 11/3/2021 14:17:38'!
+find: thisPrefix in: thisStack
+	| auxiliarStack foundWordsWithGivenPrefix|
+	auxiliarStack := OOStack new.
+	foundWordsWithGivenPrefix := OrderedCollection new.
+	[thisStack isEmpty] whileFalse:
+		[ |poppedElement|
+			poppedElement := thisStack pop.
+			(poppedElement beginsWith: 'Wint') ifTrue:
+			[
+				foundWordsWithGivenPrefix add: poppedElement.	
+			].
+			auxiliarStack push: poppedElement.
+		].
+	[auxiliarStack isEmpty] whileFalse: 
+	[|poppedElement|
+		poppedElement := (auxiliarStack pop).
+		thisStack push: poppedElement.
+	].
+	^foundWordsWithGivenPrefix.! !
+
 
 !classDefinition: #StackElements category: 'Stack-Exercise'!
 Object subclass: #StackElements
