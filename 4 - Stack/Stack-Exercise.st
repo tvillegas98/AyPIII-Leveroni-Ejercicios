@@ -166,8 +166,8 @@ setUp
 	expectedWords := OrderedCollection new.! !
 
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 17:09:14'!
-test01EncuentraUnaPalabraEnElStackHabiendoUnaPalabra
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 18:33:45'!
+test01EncuentraUnaPalabraEnElStackHabiendoUnaPalabraConPrefijoValido
 	|prefixWord|
 	stack push: 'Hola'.
 	expectedWords add: 'Hola'.
@@ -175,8 +175,8 @@ test01EncuentraUnaPalabraEnElStackHabiendoUnaPalabra
 	filteredWords := sentenceFinder find: prefixWord in: stack.
 	self assertThat: expectedWords isEqualTo: filteredWords with: [:aWord | (filteredWords removeLast) = aWord].! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 17:19:18'!
-test02EncuentraUnaPalabraEnElStackHabiendoMasDeUnaPalabra
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 18:34:00'!
+test02EncuentraUnaPalabraEnElStackHabiendoMasDeUnaPalabraConPrefijoValido
 	|prefix|
 	stack push: 'Hojalata'.
 	stack push: 'Ojota'.
@@ -186,8 +186,8 @@ test02EncuentraUnaPalabraEnElStackHabiendoMasDeUnaPalabra
 	filteredWords := sentenceFinder find: prefix in: stack.	
 	self assertThat: expectedWords isEqualTo: filteredWords with: [:aWord | (filteredWords removeLast) = aWord].! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 17:28:51'!
-test03EncuentraMasDeUnaPalabraEnElStackHabiendoMasDeUnaPalabra
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 18:34:07'!
+test03EncuentraMasDeUnaPalabraEnElStackHabiendoMasDeUnaPalabraConPrefijoValido
 	|prefix |
 	stack push: 'Hola'.
 	stack push: 'Hoja'.
@@ -195,27 +195,27 @@ test03EncuentraMasDeUnaPalabraEnElStackHabiendoMasDeUnaPalabra
 	stack push: 'la'.
 	stack push: 'ola'.
 	prefix := 'Ho'.
-	expectedWords add: 'Hoja'.
 	expectedWords add: 'Hola'.
+	expectedWords add: 'Hoja'.
 	filteredWords := sentenceFinder find: prefix in: stack.
 	self assertThat: expectedWords isEqualTo: filteredWords with: [:aWord | (filteredWords removeLast) = aWord].
 ! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/3/2021 23:36:44'!
-test04NoEncuentraUnaPalabraNoHabiendoPalabras
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 18:37:32'!
+test04NoEncuentraUnaPalabraNoHabiendoPalabrasEnElStackUtilizandoUnPrefijoValido
 	|prefix|
 	prefix := 'Ho'.
 	self assert: (sentenceFinder find: prefix in: stack) size equals: 0.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/3/2021 23:38:12'!
-test05NoEncuentraUnaPalabraHabiendoUnaPalabra
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 18:37:18'!
+test05NoEncuentraUnaPalabraHabiendoUnaPalabraEnElStackUtilizandoUnPrefijoValido
 	|prefix|
 	prefix := 'Ho'.
 	stack push: 'JoJo'.
 	self assert: (sentenceFinder find: prefix in: stack) size equals: 0.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/3/2021 23:42:47'!
-test06NoEncuentraUnaPalabraHabiendoMasDeUnaPalabra
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 18:37:07'!
+test06NoEncuentraUnaPalabraHabiendoMasDeUnaPalabraEnElStackUtilizandoUnPrefijoValido
 	|prefix|
 	prefix := 'Ho'.
 	stack push: 'JoJo'.
@@ -223,38 +223,40 @@ test06NoEncuentraUnaPalabraHabiendoMasDeUnaPalabra
 	stack push: 'ToTo'.
 	self assert: (sentenceFinder find: prefix in: stack) size equals: 0.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 17:43:35'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 18:27:42'!
 test07AlBuscarUnaPalabraExistenteElStackNoSeModifica
-	|prefix stackElements |
+	|prefix expectedStackPoppedElements |
 	stack push: 'Hola'.
 	stack push: 'oja'.
 	stack push: 'ja'.
 	prefix := 'Ho'.
-	stackElements := OrderedCollection new.
-	stackElements add: 'Hola'.
-	stackElements add: 'oja'.
-	stackElements add: 'ja'.	
+	expectedStackPoppedElements := OrderedCollection new.
+	expectedStackPoppedElements add: 'ja'.	
+	expectedStackPoppedElements add: 'oja'.
+	expectedStackPoppedElements add: 'Hola'.	
 	sentenceFinder find: prefix in: stack.
 
-	self assertThat: stackElements isEqualTo: stack with: [:aWord| (stack pop) = aWord].! !
+	self assertThat: expectedStackPoppedElements isEqualTo: stack with: [:aWord| (stack pop) = aWord].! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 17:43:53'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 18:30:01'!
 test08AlBuscarUnaPalabraInexistenteElStackNoSeModifica
-	|prefix stackElements |
+	|prefix expectedStackPoppedElements |
+	stack push: 'Hoja'.
 	stack push: 'Hola'.
 	stack push: 'oja'.
 	stack push: 'ja'.
 	prefix := 'to'.
-	stackElements := OrderedCollection new.
-	stackElements add: 'Hola'.
-	stackElements add: 'oja'.
-	stackElements add: 'ja'.	
+	expectedStackPoppedElements := OrderedCollection new.
+	expectedStackPoppedElements add: 'ja'.
+	expectedStackPoppedElements add: 'oja'.
+	expectedStackPoppedElements add: 'Hola'.
+	expectedStackPoppedElements add: 'Hoja'.
 	sentenceFinder find: prefix in: stack.
 
-	self assertThat: stackElements isEqualTo: stack with: [:aWord| (stack pop) = aWord].! !
+	self assertThat: expectedStackPoppedElements isEqualTo: stack with: [:aWord| (stack pop) = aWord].! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 13:47:49'!
-test09SiLePasamosUnPrefijoVacioFalla
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 18:38:08'!
+test09FallaAlUtilizarUnPrefijoVacio
 	| prefix |
 	stack push: 'Hola'.
 	stack push: 'oja'.
@@ -265,8 +267,8 @@ test09SiLePasamosUnPrefijoVacioFalla
 		raise: Error
 		withExceptionDo: [:anError | self assert: anError messageText equals: SentenceFinderByPrefix emptyPrefixError].! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 14:39:34'!
-test10SiLePasamosUnPrefijoCaracterFalla
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 18:38:34'!
+test10FallaAlUtilizarUnPrefijoCaracterEspacio
 	| prefix |
 	stack push: 'Hola'.
 	stack push: 'oja'.
@@ -277,8 +279,8 @@ test10SiLePasamosUnPrefijoCaracterFalla
 		raise: Error
 		withExceptionDo: [:anError | self assert: anError messageText equals: SentenceFinderByPrefix invalidPrefixError].! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 14:46:51'!
-test11SiLePasamosUnPrefijoConSoloEspaciosFalla
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 18:39:49'!
+test11FallaAlUtilizarUnPrefijoStringEspacio
 	| prefix |
 	stack push: 'Hola'.
 	stack push: 'oja'.
@@ -289,8 +291,8 @@ test11SiLePasamosUnPrefijoConSoloEspaciosFalla
 		raise: Error
 		withExceptionDo: [:anError | self assert: anError messageText equals: SentenceFinderByPrefix prefixContainsAnSpaceError ].! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 14:47:03'!
-test12SiLePasamosUnPrefijoConEspaciosFalla
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 18:39:31'!
+test12FallaAlUtilizarUnPrefijoConEspacios
 	| prefix |
 	stack push: 'Hola'.
 	stack push: 'oja'.
@@ -302,13 +304,17 @@ test12SiLePasamosUnPrefijoConEspaciosFalla
 		withExceptionDo: [:anError | self assert: anError messageText equals: SentenceFinderByPrefix prefixContainsAnSpaceError ].! !
 
 
-!SentenceFinderByPrefixTest methodsFor: 'assertions' stamp: 'TV 11/4/2021 17:44:23'!
+!SentenceFinderByPrefixTest methodsFor: 'assertions' stamp: 'TV 11/4/2021 18:33:20'!
 assertThat: thisCollection isEqualTo: thisOtherCollection with: aBlock
 	self assert: (thisOtherCollection size) equals: (thisCollection size).
-	self assert: [
-			^(thisCollection do: [:anElement | (aBlock value: anElement) ifFalse: [^false]]).
-			].! !
+	self assert: (self compareEachElementOf: thisCollection with: aBlock).! !
 
+
+!SentenceFinderByPrefixTest methodsFor: 'assertions - private' stamp: 'TV 11/4/2021 18:33:20'!
+compareEachElementOf: thisCollection with: aBlock
+	(thisCollection do: [:anElement | (aBlock value: anElement) ifFalse: [^false]]).
+	^true.
+! !
 
 
 !classDefinition: #OOStack category: 'Stack-Exercise'!
