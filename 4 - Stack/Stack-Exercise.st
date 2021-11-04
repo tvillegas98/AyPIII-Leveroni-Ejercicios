@@ -5,53 +5,55 @@ TestCase subclass: #OOStackTest
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStackTest methodsFor: 'test' stamp: 'TV 11/1/2021 21:03:02'!
+!OOStackTest methodsFor: 'test' stamp: 'TV 11/4/2021 17:49:02'!
 test01StackShouldBeEmptyWhenCreated
 
 	| stack |
-	
-	stack := OOStack new.
+	"Solo cambie los nombres por la subclasificacion. Además como solo delegamos la responsabilidad
+	del push a las subclases, testeamos los comportamientos de la clase de la cual subclasificamos.
+	"
+	stack := OONotLimitedStack new.
 	
 	self assert: stack isEmpty! !
 
-!OOStackTest methodsFor: 'test' stamp: 'TV 11/1/2021 21:03:22'!
+!OOStackTest methodsFor: 'test' stamp: 'TV 11/4/2021 15:28:26'!
 test02PushAddElementsToTheStack
 
 	| stack |
 	
-	stack := OOStack new.
+	stack := OONotLimitedStack new.
 	stack push: 'something'.
 	
 	self deny: stack isEmpty! !
 
-!OOStackTest methodsFor: 'test' stamp: 'TV 11/1/2021 21:05:36'!
+!OOStackTest methodsFor: 'test' stamp: 'TV 11/4/2021 15:28:29'!
 test03PopRemovesElementsFromTheStack
 
 	| stack |
 	
-	stack := OOStack new.
+	stack := OONotLimitedStack new.
 	stack push: 'something'.
 	stack pop.
 	
 	self assert: stack isEmpty! !
 
-!OOStackTest methodsFor: 'test' stamp: 'NR 5/13/2020 13:30:09'!
+!OOStackTest methodsFor: 'test' stamp: 'TV 11/4/2021 15:28:32'!
 test04PopReturnsLastPushedObject
 
 	| stack pushedObject |
 	
-	stack := OOStack new.
+	stack := OONotLimitedStack new.
 	pushedObject := 'something'.
 	stack push: pushedObject.
 	
 	self assert: stack pop = pushedObject! !
 
-!OOStackTest methodsFor: 'test' stamp: 'NR 5/13/2020 13:30:48'!
+!OOStackTest methodsFor: 'test' stamp: 'TV 11/4/2021 15:28:35'!
 test05StackBehavesLIFO
 
 	| stack firstPushedObject secondPushedObject |
 	
-	stack := OOStack new.
+	stack := OONotLimitedStack new.
 	firstPushedObject := 'first'.
 	secondPushedObject := 'second'.
 	
@@ -63,12 +65,12 @@ test05StackBehavesLIFO
 	self assert: stack isEmpty 
 	! !
 
-!OOStackTest methodsFor: 'test' stamp: 'NR 5/13/2020 13:30:20'!
+!OOStackTest methodsFor: 'test' stamp: 'TV 11/4/2021 15:28:38'!
 test06TopReturnsLastPushedObject
 
 	| stack pushedObject |
 	
-	stack := OOStack new.
+	stack := OONotLimitedStack new.
 	pushedObject := 'something'.
 	
 	stack push: pushedObject.
@@ -76,12 +78,12 @@ test06TopReturnsLastPushedObject
 	self assert: stack top = pushedObject.
 	! !
 
-!OOStackTest methodsFor: 'test' stamp: 'NR 5/13/2020 13:30:24'!
+!OOStackTest methodsFor: 'test' stamp: 'TV 11/4/2021 15:28:42'!
 test07TopDoesNotRemoveObjectFromStack
 
 	| stack pushedObject |
 	
-	stack := OOStack new.
+	stack := OONotLimitedStack new.
 	pushedObject := 'something'.
 	
 	stack push: pushedObject.
@@ -91,12 +93,12 @@ test07TopDoesNotRemoveObjectFromStack
 	self assert: stack size = 1.
 	! !
 
-!OOStackTest methodsFor: 'test' stamp: 'HAW 4/14/2017 22:48:26'!
+!OOStackTest methodsFor: 'test' stamp: 'TV 11/4/2021 15:28:49'!
 test08CanNotPopWhenThereAreNoObjectsInTheStack
 
 	| stack  |
 	
-	stack := OOStack new.
+	stack := OONotLimitedStack new.
 	self
 		should: [ stack pop ]
 		raise: Error - MessageNotUnderstood 
@@ -105,12 +107,12 @@ test08CanNotPopWhenThereAreNoObjectsInTheStack
 		
 ! !
 
-!OOStackTest methodsFor: 'test' stamp: 'NR 5/13/2020 13:30:31'!
+!OOStackTest methodsFor: 'test' stamp: 'TV 11/4/2021 15:28:54'!
 test09CanNotPopWhenThereAreNoObjectsInTheStackAndTheStackHadObjects
 
 	| stack  |
 	
-	stack := OOStack new.
+	stack := OONotLimitedStack new.
 	stack push: 'something'.
 	stack pop.
 	
@@ -122,12 +124,12 @@ test09CanNotPopWhenThereAreNoObjectsInTheStackAndTheStackHadObjects
 		
 ! !
 
-!OOStackTest methodsFor: 'test' stamp: 'HAW 4/14/2017 22:48:44'!
+!OOStackTest methodsFor: 'test' stamp: 'TV 11/4/2021 15:28:58'!
 test10CanNotTopWhenThereAreNoObjectsInTheStack
 
 	| stack  |
 	
-	stack := OOStack new.
+	stack := OONotLimitedStack new.
 	self
 		should: [ stack top ]
 		raise: Error - MessageNotUnderstood 
@@ -136,13 +138,177 @@ test10CanNotTopWhenThereAreNoObjectsInTheStack
 		
 ! !
 
+!OOStackTest methodsFor: 'test' stamp: 'TV 11/4/2021 15:29:16'!
+test11CanNotPopWhenThereStackReachedItsMaxSize
+	|limitedStack |
+	limitedStack := OOLimitedStack with: 2.
+	limitedStack push: 'hola'.
+	limitedStack push: 'hola'.
+	self
+		should: [ limitedStack push: 'hola'. ]
+		raise: Error
+		withExceptionDo: [:anError | self assert: anError messageText equals: OOLimitedStack maxSizeReachedError].
+! !
+
 
 !classDefinition: #SentenceFinderByPrefixTest category: 'Stack-Exercise'!
 TestCase subclass: #SentenceFinderByPrefixTest
-	instanceVariableNames: ''
+	instanceVariableNames: 'sentenceFinder stack limitedStack filteredWords expectedWords'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
+
+!SentenceFinderByPrefixTest methodsFor: 'setUp' stamp: 'TV 11/4/2021 17:01:14'!
+setUp
+	sentenceFinder := SentenceFinderByPrefix new.
+	stack := OONotLimitedStack new.
+	filteredWords := OrderedCollection new.
+	expectedWords := OrderedCollection new.! !
+
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 17:09:14'!
+test01EncuentraUnaPalabraEnElStackHabiendoUnaPalabra
+	|prefixWord|
+	stack push: 'Hola'.
+	expectedWords add: 'Hola'.
+	prefixWord := 'Ho'.
+	filteredWords := sentenceFinder find: prefixWord in: stack.
+	self assertThat: expectedWords isEqualTo: filteredWords with: [:aWord | (filteredWords removeLast) = aWord].! !
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 17:19:18'!
+test02EncuentraUnaPalabraEnElStackHabiendoMasDeUnaPalabra
+	|prefix|
+	stack push: 'Hojalata'.
+	stack push: 'Ojota'.
+	stack push: 'Ojito'.
+	expectedWords add: 'Hojalata'.
+	prefix := 'Ho'.
+	filteredWords := sentenceFinder find: prefix in: stack.	
+	self assertThat: expectedWords isEqualTo: filteredWords with: [:aWord | (filteredWords removeLast) = aWord].! !
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 17:28:51'!
+test03EncuentraMasDeUnaPalabraEnElStackHabiendoMasDeUnaPalabra
+	|prefix |
+	stack push: 'Hola'.
+	stack push: 'Hoja'.
+	stack push: 'a'.
+	stack push: 'la'.
+	stack push: 'ola'.
+	prefix := 'Ho'.
+	expectedWords add: 'Hoja'.
+	expectedWords add: 'Hola'.
+	filteredWords := sentenceFinder find: prefix in: stack.
+	self assertThat: expectedWords isEqualTo: filteredWords with: [:aWord | (filteredWords removeLast) = aWord].
+! !
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/3/2021 23:36:44'!
+test04NoEncuentraUnaPalabraNoHabiendoPalabras
+	|prefix|
+	prefix := 'Ho'.
+	self assert: (sentenceFinder find: prefix in: stack) size equals: 0.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/3/2021 23:38:12'!
+test05NoEncuentraUnaPalabraHabiendoUnaPalabra
+	|prefix|
+	prefix := 'Ho'.
+	stack push: 'JoJo'.
+	self assert: (sentenceFinder find: prefix in: stack) size equals: 0.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/3/2021 23:42:47'!
+test06NoEncuentraUnaPalabraHabiendoMasDeUnaPalabra
+	|prefix|
+	prefix := 'Ho'.
+	stack push: 'JoJo'.
+	stack push: 'Koko'.
+	stack push: 'ToTo'.
+	self assert: (sentenceFinder find: prefix in: stack) size equals: 0.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 17:43:35'!
+test07AlBuscarUnaPalabraExistenteElStackNoSeModifica
+	|prefix stackElements |
+	stack push: 'Hola'.
+	stack push: 'oja'.
+	stack push: 'ja'.
+	prefix := 'Ho'.
+	stackElements := OrderedCollection new.
+	stackElements add: 'Hola'.
+	stackElements add: 'oja'.
+	stackElements add: 'ja'.	
+	sentenceFinder find: prefix in: stack.
+
+	self assertThat: stackElements isEqualTo: stack with: [:aWord| (stack pop) = aWord].! !
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 17:43:53'!
+test08AlBuscarUnaPalabraInexistenteElStackNoSeModifica
+	|prefix stackElements |
+	stack push: 'Hola'.
+	stack push: 'oja'.
+	stack push: 'ja'.
+	prefix := 'to'.
+	stackElements := OrderedCollection new.
+	stackElements add: 'Hola'.
+	stackElements add: 'oja'.
+	stackElements add: 'ja'.	
+	sentenceFinder find: prefix in: stack.
+
+	self assertThat: stackElements isEqualTo: stack with: [:aWord| (stack pop) = aWord].! !
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 13:47:49'!
+test09SiLePasamosUnPrefijoVacioFalla
+	| prefix |
+	stack push: 'Hola'.
+	stack push: 'oja'.
+	stack push: 'ja'.
+	prefix := ''.
+	self
+		should: [ sentenceFinder find: prefix in: stack ]
+		raise: Error
+		withExceptionDo: [:anError | self assert: anError messageText equals: SentenceFinderByPrefix emptyPrefixError].! !
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 14:39:34'!
+test10SiLePasamosUnPrefijoCaracterFalla
+	| prefix |
+	stack push: 'Hola'.
+	stack push: 'oja'.
+	stack push: 'ja'.
+	prefix := $ .
+	self
+		should: [ sentenceFinder find: prefix in: stack ]
+		raise: Error
+		withExceptionDo: [:anError | self assert: anError messageText equals: SentenceFinderByPrefix invalidPrefixError].! !
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 14:46:51'!
+test11SiLePasamosUnPrefijoConSoloEspaciosFalla
+	| prefix |
+	stack push: 'Hola'.
+	stack push: 'oja'.
+	stack push: 'ja'.
+	prefix := ' '.
+	self
+		should: [ sentenceFinder find: prefix in: stack ]
+		raise: Error
+		withExceptionDo: [:anError | self assert: anError messageText equals: SentenceFinderByPrefix prefixContainsAnSpaceError ].! !
+
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'TV 11/4/2021 14:47:03'!
+test12SiLePasamosUnPrefijoConEspaciosFalla
+	| prefix |
+	stack push: 'Hola'.
+	stack push: 'oja'.
+	stack push: 'ja'.
+	prefix := 'Ho la'.
+	self
+		should: [ sentenceFinder find: prefix in: stack ]
+		raise: Error
+		withExceptionDo: [:anError | self assert: anError messageText equals: SentenceFinderByPrefix prefixContainsAnSpaceError ].! !
+
+
+!SentenceFinderByPrefixTest methodsFor: 'assertions' stamp: 'TV 11/4/2021 17:44:23'!
+assertThat: thisCollection isEqualTo: thisOtherCollection with: aBlock
+	self assert: (thisOtherCollection size) equals: (thisCollection size).
+	self assert: [
+			^(thisCollection do: [:anElement | (aBlock value: anElement) ifFalse: [^false]]).
+			].! !
+
 
 
 !classDefinition: #OOStack category: 'Stack-Exercise'!
@@ -151,12 +317,6 @@ Object subclass: #OOStack
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
-
-!OOStack methodsFor: 'initialization' stamp: 'TV 11/1/2021 23:46:16'!
-initialize
-	stackElements := NullElement new
-	! !
-
 
 !OOStack methodsFor: 'accesing' stamp: 'TV 11/1/2021 23:46:16'!
 size
@@ -174,9 +334,9 @@ pop
 	stackElements := stackElements pop.
 	^lastElement.! !
 
-!OOStack methodsFor: 'operations' stamp: 'TV 11/1/2021 23:46:16'!
+!OOStack methodsFor: 'operations' stamp: 'TV 11/4/2021 15:06:14'!
 push: anElement
-	stackElements := stackElements push: anElement.! !
+	self subclassResponsibility.! !
 
 
 !OOStack methodsFor: 'testing' stamp: 'TV 11/1/2021 23:46:16'!
@@ -189,10 +349,61 @@ isEmpty
 OOStack class
 	instanceVariableNames: ''!
 
-!OOStack class methodsFor: 'error descriptions' stamp: 'HernanWilkinson 5/7/2012 11:51'!
+!OOStack class methodsFor: 'error descriptions' stamp: 'TV 11/4/2021 15:27:54'!
 stackEmptyErrorDescription
 	
 	^ 'Stack is empty'! !
+
+
+!OOStack class methodsFor: 'initialization' stamp: 'TV 11/4/2021 14:57:36'!
+with: aMaxSize
+	^OOLimitedStack new initializeWith: aMaxSize.! !
+
+
+!classDefinition: #OOLimitedStack category: 'Stack-Exercise'!
+OOStack subclass: #OOLimitedStack
+	instanceVariableNames: 'maxSize'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!OOLimitedStack methodsFor: 'initialization' stamp: 'TV 11/4/2021 15:27:43'!
+initializeWith: aMaxSize
+	maxSize := aMaxSize.
+	stackElements := NullElement new.! !
+
+
+!OOLimitedStack methodsFor: 'operations' stamp: 'TV 11/4/2021 15:01:52'!
+push: anElement
+	(self size = maxSize) ifTrue: [self error: self class maxSizeReachedError].
+	stackElements := stackElements push: anElement.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'OOLimitedStack class' category: 'Stack-Exercise'!
+OOLimitedStack class
+	instanceVariableNames: ''!
+
+!OOLimitedStack class methodsFor: 'error descriptions' stamp: 'TV 11/4/2021 15:01:34'!
+maxSizeReachedError
+	^'se alcanzó el máximo tamaño admitido'.! !
+
+
+!classDefinition: #OONotLimitedStack category: 'Stack-Exercise'!
+OOStack subclass: #OONotLimitedStack
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!OONotLimitedStack methodsFor: 'initialization' stamp: 'TV 11/4/2021 15:21:29'!
+initialize
+	stackElements := NullElement new.! !
+
+
+!OONotLimitedStack methodsFor: 'operations' stamp: 'TV 11/4/2021 15:09:32'!
+push: anElement
+	stackElements := stackElements push: anElement.! !
 
 
 !classDefinition: #SentenceFinderByPrefix category: 'Stack-Exercise'!
@@ -202,31 +413,63 @@ Object subclass: #SentenceFinderByPrefix
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'TV 11/3/2021 14:17:38'!
-find: thisPrefix in: thisStack
-	| auxiliarStack foundWordsWithGivenPrefix|
-	auxiliarStack := OOStack new.
-	foundWordsWithGivenPrefix := OrderedCollection new.
-	[thisStack isEmpty] whileFalse:
-		[ |poppedElement|
-			poppedElement := thisStack pop.
-			(poppedElement beginsWith: 'Wint') ifTrue:
-			[
-				foundWordsWithGivenPrefix add: poppedElement.	
-			].
-			auxiliarStack push: poppedElement.
-		].
-	[auxiliarStack isEmpty] whileFalse: 
-	[|poppedElement|
-		poppedElement := (auxiliarStack pop).
-		thisStack push: poppedElement.
+!SentenceFinderByPrefix methodsFor: 'operations - private' stamp: 'TV 11/4/2021 14:49:07'!
+removeAllElementsFrom: thisStack 
+	|stackElements|
+	stackElements := OrderedCollection new.
+	(thisStack size) timesRepeat: 
+	[
+		stackElements add: thisStack pop.
 	].
-	^foundWordsWithGivenPrefix.! !
+	^stackElements.
+	! !
+
+!SentenceFinderByPrefix methodsFor: 'operations - private' stamp: 'TV 11/4/2021 15:42:13'!
+retrieveOriginal: Stack from: thisCollection
+
+	thisCollection reverseDo: [:anElement | Stack push: anElement ].! !
+
+
+!SentenceFinderByPrefix methodsFor: 'operations' stamp: 'TV 11/4/2021 16:30:40'!
+find: thisWord in: thisStack
+	|stackElements|
+	self verifyValidPrefix: thisWord.
+	stackElements := self removeAllElementsFrom: thisStack.
+	self retrieveOriginal: thisStack from: stackElements.
+	^stackElements select: [:anElement| anElement beginsWith: thisWord].! !
+
+
+!SentenceFinderByPrefix methodsFor: 'testing' stamp: 'TV 11/4/2021 16:12:42'!
+verifyValidPrefix: aWord.
+
+	(aWord = $ ) ifTrue: [self error: self class invalidPrefixError].
+	
+	(aWord isEmpty) ifTrue: [self error: self class emptyPrefixError ].
+	
+	(aWord includesSubString: ' ') ifTrue: [self error: self class prefixContainsAnSpaceError ].! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'SentenceFinderByPrefix class' category: 'Stack-Exercise'!
+SentenceFinderByPrefix class
+	instanceVariableNames: ''!
+
+!SentenceFinderByPrefix class methodsFor: 'error descriptions' stamp: 'TV 11/4/2021 14:37:24'!
+emptyPrefixError
+	^'empty prefix!!'.! !
+
+!SentenceFinderByPrefix class methodsFor: 'error descriptions' stamp: 'TV 11/4/2021 14:37:20'!
+invalidPrefixError
+	^'invalid prefix!!'.! !
+
+!SentenceFinderByPrefix class methodsFor: 'error descriptions' stamp: 'TV 11/4/2021 14:33:57'!
+prefixContainsAnSpaceError
+	^'prefix contains an space!!'.! !
 
 
 !classDefinition: #StackElements category: 'Stack-Exercise'!
 Object subclass: #StackElements
-	instanceVariableNames: 'collection previousCollection'
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
@@ -236,8 +479,8 @@ pop
 	self subclassResponsibility.
 	! !
 
-!StackElements methodsFor: 'operations' stamp: 'TV 11/1/2021 20:30:36'!
-push
+!StackElements methodsFor: 'operations' stamp: 'TV 11/4/2021 17:15:28'!
+push: anElement
 	self subclassResponsibility.
 	! !
 
@@ -260,7 +503,7 @@ top
 
 !classDefinition: #NotNullElements category: 'Stack-Exercise'!
 StackElements subclass: #NotNullElements
-	instanceVariableNames: ''
+	instanceVariableNames: 'collection previousCollection'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
