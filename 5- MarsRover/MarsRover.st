@@ -5,169 +5,122 @@ TestCase subclass: #MarsRoverTest
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 14:53:49'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 17:48:34'!
 test01CuandoNoSeEnvianComandosSeMantieneEnLaPosicionInicialEnDireccionNorte
-	|marsRover|
 	
-	marsRover := MarsRover enDireccion: 'N'.
-	
-	self assert: (marsRover posicionActual = (0@0) and: [marsRover direccionActual isMemberOf: Norte]).! !
+	self asegurarQueElMarsRoverApunte: 'N' ejecute: '' termineEn: (0@0) en: 'N'.! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 14:53:57'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 17:48:34'!
 test02CuandoApuntaEnDireccionNorteAvanzaHaciaElNorte
-	|marsRover|
-	
-	marsRover := MarsRover enDireccion: 'N'.
-	marsRover recibirComandos: 'f'.
-	
-	self assert: (marsRover posicionActual = (0@1) and: [marsRover direccionActual isMemberOf: Norte]).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 14:26:51'!
+	self asegurarQueElMarsRoverApunte: 'N' ejecute: 'f' termineEn: (0@1) en: 'N'.! !
+
+!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 17:48:34'!
 test03CuandoApuntaEnDireccionNorteRetrocedeEnDireccionNorte
-	|marsRover|
 	
-	marsRover := MarsRover enDireccion: 'N'.
-	marsRover recibirComandos: 'b'.
-	
-	self assert: (marsRover posicionActual = (0@-1) and: [marsRover direccionActual isMemberOf: Norte]).! !
+	self asegurarQueElMarsRoverApunte: 'N' ejecute: 'b' termineEn: (0@-1) en: 'N'.! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 14:26:56'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 17:48:34'!
 test04CuandoApuntaEnDireccionNorteYRotaHaciaLaIzquierdaApuntaHaciaElOeste
-	|marsRover|
 	
-	marsRover := MarsRover enDireccion: 'N'.
-	marsRover recibirComandos: 'l'.
-	
-	self assert: (marsRover posicionActual = (0@0) and: [marsRover direccionActual isMemberOf: Oeste]).! !
+	self asegurarQueElMarsRoverApunte: 'N' ejecute: 'l' termineEn: (0@0) en: 'O'.! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 14:26:59'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 17:48:34'!
 test05CuandoApuntaEnDireccionNorteYRotaHaciaLaDerechaApuntaHaciaElEste
-	|marsRover|
-	
-	marsRover := MarsRover enDireccion: 'N'.
-	marsRover recibirComandos: 'r'.
-	
-	self assert: (marsRover posicionActual = (0@0) and: [marsRover direccionActual isMemberOf: Este]).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 14:27:45'!
-test06CuandoApuntaEnDireccionOesteAvanzaEnDireccionOeste
-	| marsRover |
-	
-	marsRover := MarsRover enDireccion: 'O'.
-	marsRover recibirComandos: 'f'.
-	
-	self assert:(marsRover posicionActual = (-1@0) and: [marsRover direccionActual isMemberOf: Oeste]).! !
+	self asegurarQueElMarsRoverApunte: 'N' ejecute: 'r' termineEn: (0@0) en: 'E'.! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 14:27:57'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 17:48:34'!
+test06CuandoApuntaEnDireccionOesteAvanzaEnDireccionOeste.
+
+	self asegurarQueElMarsRoverApunte: 'O' ejecute: 'f' termineEn: (-1@0) en: 'O'.! !
+
+!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 17:48:34'!
 test07CuandoApuntaEnDireccionOesteRetrocedeEnDireccionOeste
-	| marsRover |
-	
-	marsRover := MarsRover enDireccion: 'O'.
-	marsRover recibirComandos: 'b'.
-	
-	self assert:(marsRover posicionActual = (1@0) and: [marsRover direccionActual isMemberOf: Oeste]).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 14:28:07'!
+	self asegurarQueElMarsRoverApunte: 'O' ejecute: 'b' termineEn: (1@0) en: 'O'.
+	! !
+
+!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 17:48:34'!
 test08CuandoApuntaEnDireccionOesteYRotaHaciaLaIzquierdaApuntaHaciaElSur
-	| marsRover |
-	
-	marsRover := MarsRover enDireccion: 'O'.
-	marsRover recibirComandos: 'l'.
-	
-	self assert:(marsRover posicionActual = (0@0) and: [marsRover direccionActual isMemberOf: Sur]).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 14:28:15'!
+	self asegurarQueElMarsRoverApunte: 'O' ejecute: 'l' termineEn: (0@0) en: 'S'.! !
+
+!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 17:48:34'!
 test09CuandoApuntaEnDireccionOesteYRotaHaciaLaDerechaApuntaHaciaElNorte
-	| marsRover |
-	
-	marsRover := MarsRover enDireccion: 'O'.
-	marsRover recibirComandos: 'r'.
-	
-	self assert:(marsRover posicionActual = (0@0) and: [marsRover direccionActual isMemberOf: Norte]).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 14:28:29'!
+	self asegurarQueElMarsRoverApunte: 'O' ejecute: 'r' termineEn: (0@0) en: 'N'.! !
+
+!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 17:48:34'!
 test10CuandoApuntaEnDireccionEsteAvanzaEnDireccionEste
-	| marsRover |
-	
-	marsRover := MarsRover enDireccion: 'E'.
-	marsRover recibirComandos: 'f'.
-	
-	self assert:(marsRover posicionActual = (1@0) and: [marsRover direccionActual isMemberOf: Este]).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 14:28:42'!
+	self asegurarQueElMarsRoverApunte: 'E' ejecute: 'f' termineEn: (1@0) en: 'E'.! !
+
+!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 17:48:34'!
 test11CuandoApuntaEnDireccionEsteRetrocedeEnDireccionEste
-	| marsRover |
-	
-	marsRover := MarsRover enDireccion: 'E'.
-	marsRover recibirComandos: 'b'.
-	
-	self assert:(marsRover posicionActual = (-1@0) and: [marsRover direccionActual isMemberOf: Este]).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 14:28:52'!
+	self asegurarQueElMarsRoverApunte: 'E' ejecute: 'b' termineEn: (-1@0) en: 'E'.! !
+
+!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 17:48:34'!
 test12CuandoApuntaEnDireccionEsteYRotaHaciaLaIzquierdaApuntaEnDireccionNorte
-	| marsRover |
-	
-	marsRover := MarsRover enDireccion: 'E'.
-	marsRover recibirComandos: 'l'.
-	
-	self assert:(marsRover posicionActual = (0@0) and: [marsRover direccionActual isMemberOf: Norte]).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 14:30:17'!
+	self asegurarQueElMarsRoverApunte: 'E' ejecute: 'l' termineEn: (0@0) en: 'N'.! !
+
+!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 17:48:34'!
 test13CuandoApuntaEnDireccionEsteYRotaHaciaLaDerechaApuntaEnDireccionSur
-	| marsRover |
-	
-	marsRover := MarsRover enDireccion: 'E'.
-	marsRover recibirComandos: 'r'.
-	
-	self assert:(marsRover posicionActual = (0@0) and: [marsRover direccionActual isMemberOf: Sur]).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 14:32:13'!
+	self asegurarQueElMarsRoverApunte: 'E' ejecute: 'r' termineEn: (0@0) en: 'S'.! !
+
+!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 17:48:34'!
 test14CuandoApuntaEnDireccionSurAvanzaEnDireccionSur
-	| marsRover |
-	
-	marsRover := MarsRover enDireccion: 'S'.
-	marsRover recibirComandos: 'f'.
-	
-	self assert:(marsRover posicionActual = (0@-1) and: [marsRover direccionActual isMemberOf: Sur]).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 14:32:33'!
+	self asegurarQueElMarsRoverApunte: 'S' ejecute: 'f' termineEn: (0@-1) en: 'S'.! !
+
+!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 17:48:34'!
 test15CuandoApuntaEnDireccionSurRetrocedeEnDireccionSur
-	| marsRover |
-	
-	marsRover := MarsRover enDireccion: 'S'.
-	marsRover recibirComandos: 'b'.
-	
-	self assert:(marsRover posicionActual = (0@1) and: [marsRover direccionActual isMemberOf: Sur]).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 14:32:48'!
+	self asegurarQueElMarsRoverApunte: 'S' ejecute: 'b' termineEn: (0@1) en: 'S'.! !
+
+!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 17:48:34'!
 test16CuandoApuntaEnDireccionSurYRotaHaciaLaIzquierdaApuntaEnDireccionEste
-	| marsRover |
-	
-	marsRover := MarsRover enDireccion: 'S'.
-	marsRover recibirComandos: 'l'.
-	
-	self assert:(marsRover posicionActual = (0@0) and: [marsRover direccionActual isMemberOf: Este]).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 14:32:59'!
+	self asegurarQueElMarsRoverApunte: 'S' ejecute: 'l' termineEn: (0@0) en: 'E'.! !
+
+!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 17:48:34'!
 test17CuandoApuntaEnDireccionSurYRotaHaciaLaDerechaApuntaEnDireccionOeste
-	| marsRover |
-	
-	marsRover := MarsRover enDireccion: 'S'.
-	marsRover recibirComandos: 'r'.
-	
-	self assert:(marsRover posicionActual = (0@0) and: [marsRover direccionActual isMemberOf: Oeste]).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 14:54:55'!
+	self asegurarQueElMarsRoverApunte: 'S' ejecute: 'r' termineEn: (0@0) en: 'O'.! !
+
+!MarsRoverTest methodsFor: 'tests' stamp: 'TV 11/18/2021 18:17:57'!
 test18CuandoSeIngresanComandosInvalidosElMarsRoverSeDetiene
-	| marsRover |
-	
-	marsRover := MarsRover enDireccion: 'N'.
+
 	self
-		should: [ marsRover recibirComandos: 'x']
+		should: [self asegurarQueElMarsRoverApunte: 'N' ejecute: 'fx' termineEn: (0@1) en: 'N']
 		raise: Error
-		withExceptionDo: [:anError | self assert: anError messageText equals: (marsRover class errorComandoInvalido)].
+		withExceptionDo: [:anError | self assert: anError messageText equals: (MarsRover descripcionErrorComandoInvalido)].
 		
 	! !
+
+
+!MarsRoverTest methodsFor: 'assertions - private' stamp: 'TV 11/18/2021 18:02:39'!
+asegurarQue: unMarsRover apunteEn: unaDireccion
+	self assert: unaDireccion equals: unMarsRover direccionActual.
+	! !
+
+!MarsRoverTest methodsFor: 'assertions - private' stamp: 'TV 11/18/2021 18:04:32'!
+asegurarQue: unMarsRover esteEn: unaPosicion
+	self assert: unaPosicion equals: unMarsRover posicionActual.! !
+
+
+!MarsRoverTest methodsFor: 'assertions' stamp: 'TV 11/18/2021 18:03:28'!
+asegurarQueElMarsRoverApunte: enUnaDireccion ejecute: unosComandos termineEn: otraPosicion en: otraDireccion
+	| marsRover |
+ 	
+	marsRover := MarsRover enDireccion: enUnaDireccion.
+	marsRover recibirComandos: unosComandos.
+
+	self asegurarQue: marsRover apunteEn: otraDireccion.
+	self asegurarQue: marsRover esteEn: otraPosicion.! !
 
 
 !classDefinition: #MarsRover category: 'MarsRover'!
@@ -221,11 +174,11 @@ ejecutar: unComando
 ! !
 
 
-!MarsRover methodsFor: 'testing - privado' stamp: 'TV 11/18/2021 02:13:47'!
+!MarsRover methodsFor: 'testing' stamp: 'TV 11/18/2021 17:09:11'!
 direccionActual
-	^direccionActual.! !
+	^direccionActual direccion.! !
 
-!MarsRover methodsFor: 'testing - privado' stamp: 'TV 11/18/2021 02:13:56'!
+!MarsRover methodsFor: 'testing' stamp: 'TV 11/18/2021 17:59:57'!
 posicionActual
 	^posicionActual.! !
 
@@ -288,12 +241,13 @@ rotarHaciaElSur
 MarsRover class
 	instanceVariableNames: 'posicionActual'!
 
-!MarsRover class methodsFor: 'as yet unclassified' stamp: 'TV 11/18/2021 14:26:13'!
+!MarsRover class methodsFor: 'instance creation' stamp: 'TV 11/18/2021 14:26:13'!
 enDireccion: unaPosibleDireccion
 	^self new inicializarEnDireccion: unaPosibleDireccion.! !
 
-!MarsRover class methodsFor: 'as yet unclassified' stamp: 'TV 11/18/2021 14:54:24'!
-errorComandoInvalido
+
+!MarsRover class methodsFor: 'error descriptions' stamp: 'TV 11/18/2021 18:16:40'!
+descripcionErrorComandoInvalido
 	^'Comando invalido'.! !
 
 
@@ -303,6 +257,12 @@ Object subclass: #PuntosCardinales
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MarsRover'!
+
+!PuntosCardinales methodsFor: 'testing' stamp: 'TV 11/18/2021 17:11:40'!
+direccion
+	self subclassResponsibility.
+	! !
+
 
 !PuntosCardinales methodsFor: 'operaciones' stamp: 'TV 11/18/2021 03:11:55'!
 moverHaciaAdelante: unMarsRover
@@ -357,6 +317,11 @@ rotarHaciaLaDerecha: unMarsRover
 rotarHaciaLaIzquierda: unMarsRover 
 	unMarsRover rotarHaciaElNorte.! !
 
+
+!Este methodsFor: 'testing' stamp: 'TV 11/18/2021 17:04:20'!
+direccion
+	^'E'.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Este class' category: 'MarsRover'!
@@ -390,6 +355,11 @@ rotarHaciaLaDerecha: unMarsRover
 !Norte methodsFor: 'operaciones' stamp: 'TV 11/18/2021 02:34:24'!
 rotarHaciaLaIzquierda: unMarsRover
 	unMarsRover rotarHaciaElOeste.! !
+
+
+!Norte methodsFor: 'testing' stamp: 'TV 11/18/2021 17:08:26'!
+direccion
+	^'N'.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -425,6 +395,11 @@ rotarHaciaLaDerecha: unMarsRover
 rotarHaciaLaIzquierda: unMarsRover
 	unMarsRover rotarHaciaElSur.! !
 
+
+!Oeste methodsFor: 'testing' stamp: 'TV 11/18/2021 17:14:45'!
+direccion
+	^'O'.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Oeste class' category: 'MarsRover'!
@@ -458,6 +433,11 @@ rotarHaciaLaDerecha: unMarsRover
 !Sur methodsFor: 'operaciones' stamp: 'TV 11/18/2021 03:07:37'!
 rotarHaciaLaIzquierda: unMarsRover
 	unMarsRover rotarHaciaElEste.! !
+
+
+!Sur methodsFor: 'testing' stamp: 'TV 11/18/2021 17:13:56'!
+direccion
+	^'S'.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
