@@ -191,8 +191,8 @@ test01WhenTransferringACertainAmountItAffectsTheBalanceOfTheReceptiveAccounts
 	self assert: 	(originAccount balance) equals: -5*peso.
 	self assert: (destinationAccount balance) equals: 5*peso.! !
 
-!TransferTest methodsFor: 'tests' stamp: 'TV 11/26/2021 01:40:00'!
-test02WhenTransferringANegativeAmountResultsInAnError
+!TransferTest methodsFor: 'tests' stamp: 'TV 11/29/2021 16:31:58'!
+test02CannotTransferANegativeAmountOfPesos
 
 	self
 		should: [Transfer from: originAccount to: destinationAccount of: -5*peso.]
@@ -222,6 +222,14 @@ test04WhenTransferringACertainAmountEachLegOfTheTransferKnowsItsCounterpart
 	
 	
 	! !
+
+!TransferTest methodsFor: 'tests' stamp: 'TV 11/29/2021 16:32:50'!
+test05CannotTransferAZeroAmountOfPesos
+	self
+		should: [Transfer from: originAccount to: destinationAccount of: 0*peso.]
+		raise: Error
+		withExceptionDo: [:anError | self assert: anError messageText equals: Transfer errorDescriptionForZeroAmount ].
+! !
 
 
 !classDefinition: #AccountTransaction category: 'ServiciosFinancieros-Ejercicio'!
@@ -533,15 +541,26 @@ initializeFrom: aTransferOrigin to: aTransferDestination of: anAmount
 Transfer class
 	instanceVariableNames: ''!
 
-!Transfer class methodsFor: 'error descriptions' stamp: 'TV 11/26/2021 01:28:17'!
+!Transfer class methodsFor: 'error descriptions' stamp: 'TV 11/29/2021 16:25:50'!
 errorDescriptionForNegativeAmount
-	^'Cannot withdraw a negative amount'! !
+	^'Cannot transfer a negative amount'! !
+
+!Transfer class methodsFor: 'error descriptions' stamp: 'TV 11/29/2021 16:30:57'!
+errorDescriptionForZeroAmount
+	^'Cannot transfer a zero amount'.! !
 
 
-!Transfer class methodsFor: 'instance creation' stamp: 'TV 11/29/2021 15:28:12'!
+!Transfer class methodsFor: 'testing' stamp: 'TV 11/29/2021 16:29:43'!
+assertValidAmountToTransfer: anAmount
+	(anAmount < 0) ifTrue: [self error: self errorDescriptionForNegativeAmount].
+	(anAmount = 0) ifTrue: [self error: self errorDescriptionForZeroAmount].! !
+
+
+!Transfer class methodsFor: 'instance creation' stamp: 'TV 11/29/2021 16:33:17'!
 from: originAccount to: destinationAccount of: anAmount
 	|transferOrigin transferDestination transfer|
-	(anAmount < 0) ifTrue: [self error: self errorDescriptionForNegativeAmount].
+	
+	self assertValidAmountToTransfer: anAmount.
 	
 	transfer := self new.
 	
