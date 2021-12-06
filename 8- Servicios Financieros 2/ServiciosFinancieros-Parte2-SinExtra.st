@@ -5,32 +5,32 @@ TestCase subclass: #AccountSummaryTest
 	poolDictionaries: ''
 	category: 'ServiciosFinancieros-Solucion'!
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/5/2021 18:44:25'!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/6/2021 17:59:42'!
 test01SummaryOfAnEmptyAccountIsValid
 	
 	anAccount := ReceptiveAccount new.
 	
-	self assert: (anAccount summary) compute equals: (OrderedCollection with:	 'Balance = 0 pesos').! !
+	self assert: (AccountSummary of: anAccount) compute equals: (OrderedCollection with:	 'Balance = 0 pesos').! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/5/2021 18:44:35'!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:03:12'!
 test02SummaryOfAnAccountWithADepositIsValid
 	
 	anAccount := ReceptiveAccount new.
 	Deposit register: 100*peso on: anAccount. 
 	
-	self assert: (anAccount summary) compute 
+	self assert: (AccountSummary of: anAccount) compute
 		equals: (OrderedCollection with: 'Depósito por 100 pesos' with: 'Balance = 100 pesos').! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/5/2021 18:44:42'!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:03:19'!
 test03SummaryOfAnAccountWithAnExtraccionIsValid
 	
 	anAccount := ReceptiveAccount new.
 	Withdraw register: 50*peso on: anAccount. 
 	
-	self assert: (anAccount summary) compute 
+	self assert: (AccountSummary of: anAccount) compute
 		equals: (OrderedCollection with: 'Extracción por 50 pesos' with: 'Balance = -50 pesos').! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/5/2021 18:44:54'!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:03:23'!
 test04SummaryOfAnAccountWithATransferWithdrawIsValid
 	
 	anAccount := ReceptiveAccount new.
@@ -38,10 +38,10 @@ test04SummaryOfAnAccountWithATransferWithdrawIsValid
 	
 	Transfer amount: 20*peso from: anAccount to: anotherAccount.
 	
-	self assert: (anAccount summary) compute 
+	self assert: (AccountSummary of: anAccount) compute
 	equals: (OrderedCollection with: 'Salida por transferencia de 20 pesos' with:  'Balance = -20 pesos').! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/5/2021 18:45:08'!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:04:13'!
 test05SummaryOfAnAccountWithATransferDepositIsValid
 
 	anAccount := ReceptiveAccount new.
@@ -49,10 +49,10 @@ test05SummaryOfAnAccountWithATransferDepositIsValid
 	
 	Transfer amount: 30*peso from: anotherAccount to: anAccount.
 	
-	self assert: (anAccount summary) compute 
+	self assert: (AccountSummary of: anAccount) compute 
 		equals: (OrderedCollection with: 'Entrada por transferencia de 30 pesos' with: 'Balance = 30 pesos').! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/5/2021 18:45:50'!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:04:19'!
 test06SummaryOfAnAccountWithMultiplesTransactionsIsValid
 	
 	anAccount := ReceptiveAccount new.
@@ -60,62 +60,62 @@ test06SummaryOfAnAccountWithMultiplesTransactionsIsValid
 	Deposit register: 100*peso on: anAccount. 
 	Deposit register: 100*peso on: anAccount.
 	
-	self assert: (anAccount summary) compute 
+	self assert: (AccountSummary of: anAccount) compute
 		equals: (OrderedCollection 
 			with: 	'Depósito por 100 pesos' 
 			with: 	'Depósito por 100 pesos' 
 			with: 'Balance = 200 pesos').! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/5/2021 18:46:05'!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:05:48'!
 test07SummaryOfAnEmptyPortfolioIsValid
 	
-	self assert: (aPortfolio summary) compute equals: (OrderedCollection with: 'Balance = 0 pesos').! !
+	self assert: (AccountSummary of: anAccount) compute equals: (OrderedCollection with: 'Balance = 0 pesos').! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/5/2021 18:46:13'!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:04:51'!
 test08SummaryOfAPortfolioWithAnAccountHavingADepositIsValid
 	
 	Deposit register: 100*peso on: anAccount.
 	aPortfolio add: anAccount.
  	
-	self assert: (aPortfolio summary) compute 
+	self assert: (AccountSummary of: aPortfolio) compute
 		equals: (OrderedCollection with: 'Depósito por 100 pesos' with: 'Balance = 100 pesos').! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/5/2021 18:46:24'!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:04:57'!
 test09SummaryOfAPortfolioWithAnAccountHavingAnExtractionIsValid
 	
 	Withdraw register: 50*peso on: anAccount.
 	aPortfolio add: anAccount.
  	
-	self assert: (aPortfolio summary) compute 
+	self assert: (AccountSummary of: aPortfolio) compute
 		equals: (OrderedCollection with: 'Extracción por 50 pesos' with: 'Balance = -50 pesos').! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/5/2021 18:46:36'!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:05:02'!
 test10SummaryOfAPortfolioWithAnAccountHavingATransferWithdrawIsValid
 	
 	Transfer amount: 20*peso from: anAccount to: anotherAccount.
  	aPortfolio add: anAccount.	
 	
-	self assert: (aPortfolio summary) compute 
+	self assert: (AccountSummary of: aPortfolio) compute 
 		equals: (OrderedCollection with: 'Salida por transferencia de 20 pesos' with: 'Balance = -20 pesos').! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/5/2021 18:46:48'!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:05:07'!
 test11SummaryOfAPortfolioWithAnAccountHavingATransferDepositIsValid
 	
 	Transfer amount: 30*peso from: anotherAccount to: anAccount.
  	aPortfolio add: anAccount.	
 	
-	self assert: (aPortfolio summary) compute 
+	self assert: (AccountSummary of: aPortfolio) compute 
 		equals: (OrderedCollection with: 'Entrada por transferencia de 30 pesos' with: 'Balance = 30 pesos').! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/5/2021 18:47:07'!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:05:13'!
 test12SummaryOfEmptyNestedPortfoliosIsValid
 	
 	aPortfolio add: anotherPortfolio.
 	
-	self assert: (aPortfolio summary) compute 
+	self assert: (AccountSummary of: aPortfolio) compute 
 		equals: (OrderedCollection with: 'Balance = 0 pesos').! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/5/2021 18:47:23'!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:05:19'!
 test13SummaryOfNestedPortfoliosWithATransactionIsValid
 
 	Deposit register: 100*peso on: anAccount.
@@ -123,10 +123,10 @@ test13SummaryOfNestedPortfoliosWithATransactionIsValid
 	anotherPortfolio add: anAccount.
 	aPortfolio add: anotherPortfolio.
 	
-	self assert: (aPortfolio summary) compute 
+	self assert: (AccountSummary of: aPortfolio) compute
 		equals: (OrderedCollection with: 'Depósito por 100 pesos' with: 'Balance = 100 pesos').! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/5/2021 18:47:38'!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:05:24'!
 test14SummaryOfNestedPortfoliosWithMultiplesAccountsWithTransactionsIsValid
 
 	Deposit register: 100*peso on: anAccount.
@@ -135,10 +135,10 @@ test14SummaryOfNestedPortfoliosWithMultiplesAccountsWithTransactionsIsValid
 	anotherPortfolio add: anAccount.
 	aPortfolio add: anotherPortfolio.
 	
-	self assert: (aPortfolio summary) compute 
+	self assert: (AccountSummary of: aPortfolio) compute
 		equals: (OrderedCollection with: 'Depósito por 100 pesos' with: 'Extracción por 50 pesos' with: 'Balance = 50 pesos').! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/5/2021 18:48:27'!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:05:28'!
 test15SummaryOfAPortfolioWithMultiplesTypesOfAccounts
 	
 	Deposit register: 100*peso on: anAccount.
@@ -148,7 +148,7 @@ test15SummaryOfAPortfolioWithMultiplesTypesOfAccounts
 	aPortfolio add: anAccount.
 	aPortfolio add: anotherPortfolio.
 	
-	self assert: (aPortfolio summary) compute
+	self assert: (AccountSummary of: aPortfolio) compute
 		equals: (OrderedCollection with: 'Depósito por 100 pesos' with: 'Extracción por 50 pesos' with: 'Balance = 50 pesos').! !
 
 
@@ -479,81 +479,81 @@ setUp
 	anotherAccount := ReceptiveAccount new.! !
 
 
-!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/5/2021 19:04:02'!
+!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:07:38'!
 test01AnAccountWithoutTransfersHasZeroTransferNet
 	
-	self assert: (anAccount transferNet) compute equals: 'Neto de transferencias = 0 pesos'.! !
+	self assert: (TransferNet of: anAccount) compute equals: 'Neto de transferencias = 0 pesos'.! !
 
-!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/5/2021 19:04:07'!
+!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:07:49'!
 test02DepositDoesntAffectTransferNet
 	
 	Deposit register: 100*peso on: anAccount.
 	
-	self assert: (anAccount transferNet) compute equals: 'Neto de transferencias = 0 pesos'.! !
+	self assert: (TransferNet of: anAccount) compute equals: 'Neto de transferencias = 0 pesos'.! !
 
-!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/5/2021 19:04:11'!
+!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:07:55'!
 test03WithdrawDoesntAffectTransferNet
 	
 	Withdraw register: 100*peso on: anAccount.
 	
-	self assert: (anAccount transferNet) compute equals: 'Neto de transferencias = 0 pesos'.! !
+	self assert: (TransferNet of: anAccount) compute equals: 'Neto de transferencias = 0 pesos'.! !
 
-!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/5/2021 19:04:15'!
+!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:08:00'!
 test04TransferringAnAmountAffectsTransferNet
 	
 	Transfer amount: 20*peso from: anAccount  to:  anotherAccount.
 	
-	self assert: (anAccount transferNet) compute equals: 'Neto de transferencias = -20 pesos'.! !
+	self assert: (TransferNet of: anAccount) compute equals: 'Neto de transferencias = -20 pesos'.! !
 
-!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/5/2021 19:04:21'!
+!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:08:05'!
 test05ReceivingAnAmountAffectsTransferNet
 	
 	Transfer amount: 30*peso from: anotherAccount  to:  anAccount.
 	
-	self assert: (anAccount transferNet) compute equals: 'Neto de transferencias = 30 pesos'.! !
+	self assert: (TransferNet of: anAccount) compute equals: 'Neto de transferencias = 30 pesos'.! !
 
-!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/5/2021 19:00:43'!
+!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:11:28'!
 test06MultiplesTransfersAffectsTransferNet
 	
 	Transfer amount: 20*peso from: anAccount to: anotherAccount.
 	
 	Transfer amount: 30*peso from: anotherAccount  to:  anAccount.
 	
-	self assert: (anAccount transferNet) compute equals: 'Neto de transferencias = 10 pesos'.! !
+	self assert: (TransferNet of: anAccount) compute equals: 'Neto de transferencias = 10 pesos'.! !
 
-!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/5/2021 19:00:57'!
+!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:09:04'!
 test07APortfolioWithoutTransferHasZeroTransferNet
 	
-	self assert: (aPortfolio transferNet) compute equals: 'Neto de transferencias = 0 pesos'.! !
+	self assert: (TransferNet of: aPortfolio) compute equals: 'Neto de transferencias = 0 pesos'.! !
 
-!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/5/2021 19:01:11'!
+!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:10:45'!
 test08ADepositDoesntAffectPortfolioTransferNet
 
 	Deposit register: 100*peso on: anAccount.
 	
 	aPortfolio add: anAccount.
 	
-	self assert: (aPortfolio transferNet) compute equals: 'Neto de transferencias = 0 pesos'.! !
+	self assert: (TransferNet of: aPortfolio) compute equals: 'Neto de transferencias = 0 pesos'.! !
 
-!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/5/2021 19:01:21'!
+!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:10:48'!
 test09AWithdrawDoesntAffectPortfolioTransferNet
 
 	Withdraw register: 100*peso on: anAccount.
 	
 	aPortfolio add: anAccount.
 	
-	self assert: (aPortfolio transferNet) compute equals: 'Neto de transferencias = 0 pesos'.! !
+	self assert: (TransferNet of: aPortfolio) compute equals: 'Neto de transferencias = 0 pesos'.! !
 
-!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/5/2021 19:01:33'!
+!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:10:52'!
 test10TransferringAnAmountFromAPortfolioAffectsTransferNet
 	
 	Transfer amount: 30*peso from: anotherAccount to: anAccount.
 	
 	aPortfolio add: anAccount.
 	
-	self assert: (aPortfolio transferNet) compute equals: 'Neto de transferencias = 30 pesos'.! !
+	self assert: (TransferNet of: aPortfolio) compute equals: 'Neto de transferencias = 30 pesos'.! !
 
-!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/5/2021 19:01:47'!
+!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:09:44'!
 test11APortfolioWithMultiplesTransfersAffectsTransferNet
 	
 	Transfer amount: 30*peso from: anotherAccount to: anAccount.
@@ -561,9 +561,9 @@ test11APortfolioWithMultiplesTransfersAffectsTransferNet
 	
 	aPortfolio add: anAccount.
 	
-	self assert: (aPortfolio transferNet) compute equals: 'Neto de transferencias = 60 pesos'.! !
+	self assert: (TransferNet of: aPortfolio) compute equals: 'Neto de transferencias = 60 pesos'.! !
 
-!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/5/2021 19:02:06'!
+!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:10:57'!
 test12NestedPortfoliosWithATransactionAffectsTransferNet
 	
 	Transfer amount: 30*peso from: anotherAccount to: anAccount.
@@ -571,9 +571,9 @@ test12NestedPortfoliosWithATransactionAffectsTransferNet
 	anotherPortfolio add: anAccount.
 	aPortfolio add: anotherPortfolio.
 	
-	self assert: (aPortfolio transferNet) compute equals: 'Neto de transferencias = 30 pesos'.! !
+	self assert: (TransferNet of: aPortfolio) compute equals: 'Neto de transferencias = 30 pesos'.! !
 
-!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/5/2021 19:02:24'!
+!TransferNetTest methodsFor: 'tests' stamp: 'TV 12/6/2021 18:09:55'!
 test13NestedPortfoliosWithMultiplesTransactionsAffectsTransferNet
 	
 	Transfer amount: 30*peso from: anotherAccount to: anAccount.
@@ -582,7 +582,7 @@ test13NestedPortfoliosWithMultiplesTransactionsAffectsTransferNet
 	anotherPortfolio add: anAccount.
 	aPortfolio add: anotherPortfolio.
 	
-	self assert: (aPortfolio transferNet) compute equals: 'Neto de transferencias = 10 pesos'.! !
+	self assert: (TransferNet of: aPortfolio) compute equals: 'Neto de transferencias = 10 pesos'.! !
 
 
 !classDefinition: #TransferTest category: 'ServiciosFinancieros-Solucion'!
@@ -848,15 +848,6 @@ transactionsDo: aBlock
 	! !
 
 
-!Portfolio methodsFor: 'summary' stamp: 'TV 12/2/2021 23:10:44'!
-summary
-	^AccountSummary of: self.! !
-
-!Portfolio methodsFor: 'summary' stamp: 'TV 12/3/2021 01:43:22'!
-transferNet
-	^TransferNet of: self.! !
-
-
 !Portfolio methodsFor: 'private' stamp: 'HAW 5/25/2019 11:42:55'!
 addTransactionsTo: aCollectionOfTransactions
 
@@ -942,15 +933,6 @@ transactions
 transactionsDo: aBlock
 
 	transactions do: aBlock.! !
-
-
-!ReceptiveAccount methodsFor: 'summary' stamp: 'TV 12/2/2021 21:03:31'!
-summary
-	^AccountSummary of: self.	! !
-
-!ReceptiveAccount methodsFor: 'summary' stamp: 'TV 12/3/2021 01:12:28'!
-transferNet
-	^TransferNet of: self.! !
 
 
 !ReceptiveAccount methodsFor: 'private' stamp: 'HAW 5/25/2019 11:38:52'!
